@@ -3,3 +3,9 @@ $primary:#244D87;
 $secondary:#3E9FCA;
 $danger:#842C2E;
 $offset:#F7F7F7;
+
+@mixin breakpoint($bp:0){
+@media (max-width:$bp) {
+    @content
+}
+}

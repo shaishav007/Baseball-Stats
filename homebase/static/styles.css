@@ -260,6 +260,10 @@ body {
   border-spacing: 10px;
 }
 
+td {
+  padding-block: 0.5rem;
+}
+
 tr:nth-child(even) {
   background: white;
 }
@@ -315,7 +319,6 @@ h2 {
 
 .news {
   background: #485393;
-  overflow: scroll;
   display: flex;
   overflow-x: scroll;
   margin-block: 1rem;
@@ -328,6 +331,12 @@ h2 {
   flex-basis: 20%;
   margin: 0 1rem 1rem 0;
   border-radius: 1rem;
+}
+
+.postTitle a {
+  text-decoration: none;
+  color: #244D87;
+  font-weight: bold;
 }
 
 .storyImage {
@@ -373,6 +382,7 @@ nav ul a {
 }
 nav ul a:hover {
   border-top: 0.2rem solid white;
+  font-weight: bold;
 }
 nav ul a img {
   height: 100%;
@@ -393,6 +403,7 @@ h1 {
 .upperRow {
   display: flex;
   align-items: center;
+  margin-top: 1rem;
 }
 
 .pill {
@@ -408,6 +419,12 @@ h1 {
   justify-content: center;
   padding: 0;
   margin: 0;
+}
+@media (max-width: 700px) {
+  .pill {
+    margin-left: 0;
+    margin-block: 0.5rem;
+  }
 }
 
 .hittersLink, .pitchersLink {
@@ -458,7 +475,8 @@ h2 {
   height: 2rem;
 }
 .playerImageContainer img {
-  width: 100%;
+  width: 50px;
+  height: auto;
 }
 
 .playerLink {
@@ -483,7 +501,11 @@ h2 {
   height: 1rem;
 }
 
-h1 {
+.upperRow {
+  flex-wrap: wrap;
+}
+
+.playerName {
   padding: 0;
   margin: 0;
 }
@@ -514,4 +536,37 @@ h2 a {
   background: transparent;
   color: #F7F7F7;
   padding: 0.5rem;
+}
+@media (max-width: 730px) {
+  .miniPlayerTable {
+    margin-left: 0;
+    padding-block: 1rem;
+  }
+}
+
+.notAvailable {
+  margin-block: 10rem;
+  color: #F7F7F7;
+  text-align: center;
+  font-size: 1.5rem;
+}
+
+.leaderTable {
+  width: 100%;
+  background: #F7F7F7;
+  border-collapse: collapse;
+  border-radius: 1rem;
+  margin: 1rem 1rem 0 0;
+  padding: 1rem;
+  border: none;
+  text-align: center;
+  border-spacing: 10px;
+}
+
+th {
+  text-transform: capitalize;
+}
+
+h1 {
+  margin-left: 1rem;
 }/*# sourceMappingURL=styles.css.map */

@@ -8,6 +8,7 @@ django = "*"
 requests = "*"
 beautifulsoup4 = "*"
 lxml = "*"
+cactus = "*"
 
 [dev-packages]
 

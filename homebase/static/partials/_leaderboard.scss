@@ -1,0 +1,17 @@
+.leaderTable{
+    width: 100%;
+    background: $offset;
+    border-collapse: collapse;
+    border-radius:1rem;
+    margin: 1rem 1rem 0 0;
+    padding:1rem;
+    border:none;
+    text-align: center;
+    border-spacing: 10px;
+}
+th{
+    text-transform: capitalize;
+}
+h1{
+    margin-left:1rem;
+}

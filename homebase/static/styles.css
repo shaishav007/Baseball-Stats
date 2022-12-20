@@ -315,7 +315,6 @@ h2 {
 
 .news {
   background: #485393;
-  overflow: scroll;
   display: flex;
   overflow-x: scroll;
   margin-block: 1rem;
@@ -328,6 +327,12 @@ h2 {
   flex-basis: 20%;
   margin: 0 1rem 1rem 0;
   border-radius: 1rem;
+}
+
+.postTitle a {
+  text-decoration: none;
+  color: #244D87;
+  font-weight: bold;
 }
 
 .storyImage {

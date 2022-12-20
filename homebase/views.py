@@ -5,24 +5,15 @@ import json
 from bs4 import BeautifulSoup
 from django.db import models
 from .models import TeamRecord, Player, HitterStats, PitcherStats
+from .utilities import utils
 
 # Create your views here.
 def displayOverview(request):
-    # so for each team in league_request, the .division is going to give out the name of whatever league it was in
-    #there are 6 divisions in each team and each division would be populated here.
-    league_request = requests.get('https://statsapi.mlb.com/api/v1/teams?sportId=1').json()
-    
-    #a dictionary that stores league in the structure {...200:'American League West'...}
-    league_dict = {
-        team['division']['id']:team['division']['name'] for team in league_request['teams']
-    }
+    #general used case to generate dictionaries 
+    league_dict,team_dict = utils.getLeagueDict()
 
     context={}
-    #contains teams and their abbreviation that looks like {'Toronto Blue Jays':'TOR'}
-    team_dict ={
-        team['name']:team['abbreviation'] for team in league_request['teams']
-    }
-
+    
     #alright so the team model can be built by all the data in here.
     league_data_request = requests.get('https://statsapi.mlb.com/api/v1/standings?leagueId=103,104').json()
     league_records=[]
@@ -63,56 +54,33 @@ def displayOverview(request):
 
         leaguePackage[division] = league_teams
     
-    context['leagues'] = leaguePackage
+    #news data from xml
+    stories= utils.getStoriesFromUrl('https://www.mlb.com/feeds/news/rss.xml')
 
-    #news data
-    stories=[]
-    xml_response = requests.get('https://www.mlb.com/feeds/news/rss.xml')
-    soup = BeautifulSoup(xml_response.content,'xml')
-    entries = soup.find_all('item')
-    for entry in entries:
-        story={
-            "postTitle" : entry.title.text,
-            "postLink" : entry.link.text,
-            "postImage" : entry.image['href'],
-            "postAuthor" : entry.creator.text,
-            "postDate" : entry.pubDate.text[4:16]
-        }
-        stories.append(story)
-    
-    
-    context['posts']=stories
-
+    #setting up the context to render
+    context={
+        'leagues': leaguePackage, #line 46
+        'posts':stories   #line 58
+    }
     return render(request,'index.html',context)
 
 
 
 def loadTeamView(request,teamId):   
     context={}
-    # Eventually we will just put them in the database.
+    # Eventually we will just put them in the database. but that's after the models are finalised
     hitters=[]     #hitters
     pitchers=[]    #pitchers        
     playerInfoUrl = "https://statsapi.mlb.com/api/v1/teams/"+str(teamId)+"/roster/Active?hydrate=person(stats(type=season))"
 
-    #get info from here
-    teamInfoUrl = 'https://statsapi.mlb.com//api/v1/teams/'+str(teamId)
-    teamInfo = requests.get(teamInfoUrl).json()
-    #add it to the context
-    context['team'] = teamInfo['teams'][0]['name']
-    context['teamId']=teamId
-
-    #this is the data we get from the request
-    players_info = requests.get(playerInfoUrl).json()
     
-    #for standings we need to request
-    #there are 6 divisions in each team and each division would be populated here.
-    league_request = requests.get('https://statsapi.mlb.com/api/v1/teams?sportId=1').json()
-    
-    #a dictionary that stores league in the structure {...200:'American League West'...}
-    league_dict = {
-        team['division']['id']:team['division']['name'] for team in league_request['teams']
-    }
 
+    
+    
+    
+    league_dict,team_dict = utils.getLeagueDict()
+
+    #each team has a subheading with some stats that we can get from here
     teamStanding = 0
     wins = 0
     losses = 0
@@ -129,20 +97,15 @@ def loadTeamView(request,teamId):
                 losses = teamRecord['leagueRecord']['losses']
                 gb=teamRecord['divisionGamesBack']
                 division = record['division']['id']
-    
-    context['subStats']={
-        "standing":str(teamStanding)+" in "+league_dict[division],
-        "wl":str(wins)+"-"+str(losses),
-        "gb":gb
-    }
 
-    #to get the mode lets look at the url first
+
+    #2 modes - hitters and pitchers, we can know which one based on the url
     modeUrl = request.META['PATH_INFO']
     mode=modeUrl.split('/')[-2] #this value gives you either hitters or pitchers
-    context['mode'] = mode
     
-
-    # we make the hitters and pitchers dictionaries in the same loop, they are in the "roster" array
+    
+    # we make the hitters and pitchers dictionaries in the same loop, they are in the "roster" array just populating using the Player class defined in models
+    players_info = requests.get(playerInfoUrl).json()
     for player in players_info["roster"]:
         if player["position"]["abbreviation"]!='P':
             #if the guy is not a pitcher, we gotta make sure there are hitter stats
@@ -177,7 +140,6 @@ def loadTeamView(request,teamId):
         else:
             #this means player is a pitcher
             split = player['person']['stats'][0]['splits'][0]['stat'] if 'stats' in player['person'].keys() else "NA"
-            
             currentPlayer = Player(
             teamId = player['parentTeamId'],
             playerId = player["person"]["id"],
@@ -185,9 +147,7 @@ def loadTeamView(request,teamId):
             pos = player["position"]["abbreviation"],
             jerseyNumber = player["jerseyNumber"],
             age = player["person"]["currentAge"],
-
             pitchHand = player["person"]["pitchHand"]["code"],
-
             ip = split['inningsPitched'] if 'stats' in player['person'].keys() else "NA",
             wins = split['wins'] if 'stats' in player['person'].keys() else "NA",
             losses = split['losses'] if 'stats' in player['person'].keys() else "NA",
@@ -203,9 +163,25 @@ def loadTeamView(request,teamId):
             )
 
             pitchers.append(currentPlayer.packageIt())
-    context['hitters']=hitters
-    context['pitchers']=pitchers
+
+
+    context['subStats']={
+        "standing":str(teamStanding)+" in "+league_dict[division],
+        "wl":str(wins)+"-"+str(losses),
+        "gb":gb
+    }
+
+    #get the name of the team from the teamId coz the context will need it
+    teamInfoUrl = 'https://statsapi.mlb.com//api/v1/teams/'+str(teamId)
+    teamInfo = requests.get(teamInfoUrl).json()
     
+    #add it to the context
+    context['team'] = teamInfo['teams'][0]['name']
+    context['teamId']=teamId
+    context['mode'] = mode #line 102
+    context['hitters']=hitters #line 107
+    context['pitchers']=pitchers #line 107
+     
     return render(request,'team.html',context)
 
 def YearlyStatsView(request,teamId,playerId):
@@ -222,7 +198,7 @@ def YearlyStatsView(request,teamId,playerId):
     teamRequest = requests.get('https://statsapi.mlb.com/api/v1/teams/'+str(teamId)).json()
     context['currentTeam'] = teamRequest['teams'][0]['name']
 
-    #gives B/T, Age, height, weight and Drafted year
+    #gives B/T, Age, height, weight and Drafted year, to be used in the mini table beside the player's pic
     context['miniTableInfo']={
         "bt":str(stats_info['people'][0]['batSide']["code"]+"/"+stats_info['people'][0]['pitchHand']["code"]),
         "age":stats_info['people'][0]['currentAge'],
@@ -231,7 +207,8 @@ def YearlyStatsView(request,teamId,playerId):
         "drafted":stats_info['people'][0]['draftYear'] if 'draftYear' in stats_info['people'][0].keys() else "NA"
 
     }
-    # this stats list is going to have all the info eventually
+
+    # this stats list is going to have all the info eventually, year by uear stats
     ybyStats=[]
     person = stats_info['people'][0]
     context['Pos'] = person["primaryPosition"]["abbreviation"];
@@ -294,7 +271,7 @@ def YearlyStatsView(request,teamId,playerId):
                         )
                         ybyStats.append(currentStats.packageIt())
 
-
+    #finally adding year by year stats to context 
     context['stats']=ybyStats if len(ybyStats)>0 else "stats not available"
     
     return render(request, 'player.html',context)

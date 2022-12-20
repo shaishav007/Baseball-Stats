@@ -36,6 +36,9 @@ body{
 
 }
 
+td{
+    padding-block: 0.5rem;
+}
 tr:nth-child(even){
     background: white;
 }

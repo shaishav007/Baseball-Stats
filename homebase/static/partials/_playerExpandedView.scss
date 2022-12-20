@@ -54,6 +54,7 @@ h2{
     }
     @include breakpoint(730px){
         margin-left:0;
+        padding-block: 1rem;
     }
 }
 

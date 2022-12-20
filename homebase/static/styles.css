@@ -260,6 +260,10 @@ body {
   border-spacing: 10px;
 }
 
+td {
+  padding-block: 0.5rem;
+}
+
 tr:nth-child(even) {
   background: white;
 }
@@ -416,6 +420,12 @@ h1 {
   padding: 0;
   margin: 0;
 }
+@media (max-width: 700px) {
+  .pill {
+    margin-left: 0;
+    margin-block: 0.5rem;
+  }
+}
 
 .hittersLink, .pitchersLink {
   padding: 0.5rem;
@@ -465,7 +475,8 @@ h2 {
   height: 2rem;
 }
 .playerImageContainer img {
-  width: 100%;
+  width: 50px;
+  height: auto;
 }
 
 .playerLink {
@@ -529,6 +540,7 @@ h2 a {
 @media (max-width: 730px) {
   .miniPlayerTable {
     margin-left: 0;
+    padding-block: 1rem;
   }
 }
 

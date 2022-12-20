@@ -1,0 +1,79 @@
+@import './variables';
+.upperRow{
+    display: flex;
+    align-items: center;
+}
+.pill{
+    margin-left: auto;
+    background: $offset;
+    border-radius: 2rem;
+    padding: 0.2rem;
+
+    ul{
+        display: flex;
+        align-items: center;
+        list-style: none;
+        justify-content: center;
+        padding: 0;
+        margin: 0;
+        
+    }
+}
+
+.hittersLink,.pitchersLink{
+    padding: 0.5rem;
+    display: block;
+    text-decoration: none;
+   
+    &:hover{
+        color: orange;
+        border-radius: 1rem;
+    }
+}
+
+.currentMode{
+    background:$primary;
+    color: $offset;
+    border-radius: 1rem;
+}
+
+h2{
+    color: $secondary;
+    font-size:1.2rem;
+}
+
+
+.teamTable{
+    width: 100%;
+    background: $offset;
+    border-collapse: collapse;
+    border-radius:1rem;
+    margin: 1rem 1rem 0 0;
+    padding:1rem;
+    border:none;
+    text-align: center;
+    border-spacing: 10px;
+
+}
+
+.logoContainer{
+    margin-left: 1rem;
+    width: 100px;
+    height: 100px;
+    img{
+        width: 100%;
+        height: 100%;
+    }
+}
+.playerImageContainer{
+    width: 2rem;
+    height: 2rem;
+    img{
+        width: 100%;
+    }
+}
+
+.playerLink{
+    text-decoration: none;
+    color: $primary;
+}

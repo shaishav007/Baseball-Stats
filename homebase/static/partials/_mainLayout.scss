@@ -1,0 +1,171 @@
+@import './variables';
+.html{
+    font-size:62.5%;
+    font-family: 'IBM Plex Sans', sans-serif;
+}
+
+body{
+    font-family: 'IBM Plex Sans', sans-serif;
+}
+.wrapper{
+    max-width: 1200px;
+    width: 80vw;
+    margin: 0 auto;
+}
+.leagueOverview{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap:wrap;
+    margin-bottom: 1rem;
+}
+
+.leagueOverview>*{
+    flex-basis:45%;
+    flex-grow: 1;
+}
+.leagueTable{
+    background: $offset;
+    border-collapse: collapse;
+    border-radius:1rem;
+    margin: 1rem 1rem 0 0;
+    padding:1rem;
+    border:none;
+    text-align: center;
+    border-spacing: 10px;
+
+}
+
+tr:nth-child(even){
+    background: white;
+}
+tr:last-child{
+    background: transparent;
+    border-radius:1rem;
+
+    &>*{
+        background: white;
+    }
+    td:first-child,td:last-child{
+        border-radius: 1rem;
+    }
+
+}
+.teamLink{
+    text-align: left;
+    padding-left:0.5rem;
+}
+.headerRow{
+    color:$offset;
+    border-radius:1rem;
+    th{
+        padding-block: 0.5rem;
+        background:$secondary;
+        &:first-child{
+            border-radius:1rem 0 0 0 ;
+        }
+        &:last-child{
+            border-radius:0 1rem 0 0;
+        }
+    }
+
+}
+
+.teamLogo{
+    width:2rem;
+    height: 2rem;
+    img{
+        width:100%;
+        height:100%;
+    }
+}
+
+.teamLink{
+    a{
+        text-decoration:none;
+        color:$primary;
+    }
+}
+
+h2{
+    color:white;
+}
+.news{
+    background: #485393;
+    overflow: scroll;
+    display: flex;
+    overflow-x: scroll;
+    margin-block: 1rem;
+    flex-direction: row;
+}
+
+.news>*{
+    background: $offset;
+    min-width: 15rem;
+    flex-basis: 20%;
+    margin: 0 1rem 1rem 0;
+    border-radius: 1rem;
+}
+
+
+.storyImage{
+    width: 100%;
+    img{
+        width: 100%;
+    }
+}
+
+.postTextContainer{
+    padding: 1rem;
+}
+.publishInfo{
+    display: flex;
+    margin-block: 1rem;
+}
+
+
+nav{
+    background: $navBg;
+    color: white;
+    display: block;
+    ul{
+        padding:0;
+        margin: 0;
+        list-style:none;
+        display: flex;
+        margin:0;
+
+        li:first-child{
+                margin-right: auto;
+        }
+        li:nth-child(2){
+            padding-right: 1rem;
+        }
+        a{
+            text-decoration: none;
+            color:$offset;
+            padding-block: 1rem;
+            display: inline-block;
+            height: 4rem;
+
+            &:hover{
+                border-top: 0.2rem solid white;
+            }
+            img{
+                height: 100%;
+            }
+        }
+    }
+}
+body{
+    background: $primary;
+}
+
+h1{
+    color: white;
+
+}
+
+.content{
+    background: green;
+}

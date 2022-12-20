@@ -1,0 +1,96 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet"> 
+    
+    <link rel="stylesheet" href="{%static 'styles.css' %}">
+    <script src="{%static 'app.js'%}"></script>
+</head>
+<body>
+    <!-- so there's gonna be no console.log data -->
+    <header>
+        <nav>
+            <div class="wrapper">
+                <!-- the nav menu and the logo should be here -->
+                
+                <ul>
+                    <li><a href="/homebase/overview"><img src="{%static 'assets/homebase-logo.png' %}" alt="navigate to homebase"></a></li>
+                    <li><a href="#">Teams</a></li>
+                    <li><a href="#">Leaderboards</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <div class="wrapper">
+            <h1>Teams</h1>
+            <div class="leagueOverview">
+            {% for league,teamList in leagues.items %}
+                <table class="leagueTable">
+                    <tr class="headerRow">
+                        <th class="leagueName" colspan="2">{{league}}</th>
+                        
+                        <th>W</th>
+                        <th>L</th>
+                        <th>Pct</th>
+                        <th>GB</th>
+                        <th>L10</th>
+                        <th>DIFF</th>
+                    </tr>
+                    {%for team in teamList%}
+                        <tr>
+                            <td class="teamLogo"><img src="https://www.mlbstatic.com/team-logos/{{team.id}}.svg" alt="{{team.name}} logo"></td>
+                            <td class="teamLink"><a href='team-{{team.id}}/'>{{team.abbreviation}}</a></td>
+                            <td>{{team.wins}}</td>
+                            <td>{{team.losses}}</d>
+                            <td>{{team.pct}}</td>
+                            <td>{{team.gb}}</td>
+                            <td>{{team.l10}}</td>
+                            <td>{{team.diff}}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+                <br/>
+            {%endfor%}
+            </div>
+        
+        
+            <h2>News</h2>
+            <div class="news">
+                
+                {% for story in posts%}
+                <div class="post">
+                    <div class="storyImage">
+                        <img src="{{story.postImage}}" alt="image for {{story.postTitle}}">
+                    </div>
+                    <div class="postTextContainer">
+                        <div class="postTitle"> <a href="{{story.postLink}}">{{story.postTitle}}</div></a>
+                        <div class="publishInfo">
+                            <div class="author">
+                                {{story.postAuthor}}
+                            </div>
+                            <div class="date">
+                                {{story.postDate}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor%}
+                
+            </div>
+        </div>
+    </main>
+    <footer>
+
+    </footer>
+</body>
+</html>

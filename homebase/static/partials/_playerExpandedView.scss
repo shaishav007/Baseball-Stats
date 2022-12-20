@@ -1,0 +1,51 @@
+.playerTable{
+    width: 100%;
+    background: $offset;
+    border-collapse: collapse;
+    border-radius:1rem;
+    margin: 0rem 1rem 0 0;
+    padding:1rem;
+    border:none;
+    text-align: center;
+    border-spacing: 10px;
+}
+
+.teamImageContainer{
+    width: 1rem;
+    height: 1rem;
+}
+
+h1{
+    padding: 0;
+    margin: 0;
+}
+
+h2{
+    padding-block: 0;
+    margin-block: 0;
+    span{
+        color: $offset;
+        margin-right: 1rem;
+        font-size: 1.2rem;
+    }
+
+    a{
+        text-decoration: none;
+        color: $secondary;
+        font-size: 1.2rem;
+    }
+}
+
+.miniPlayerTable{
+    margin-left: auto;
+    color: $secondary;
+    tr{
+        background: transparent;
+        
+    }
+    td{
+        background: transparent;
+        color: $offset;
+        padding: 0.5rem;
+    }
+}

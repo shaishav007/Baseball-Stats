@@ -1,0 +1,152 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet"> 
+
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="wrapper">
+                <!-- the nav menu and the logo should be here -->
+                
+                <ul>
+                    <li><a href="/homebase/overview"><img src="{%static 'assets/homebase-logo.png' %}" alt="navigate to homebase"></a></li>
+                    <li><a href="/homebase/overview">Teams</a></li>
+                    <li><a href="#">Leaderboards</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <div class="wrapper">
+            <div class="upperRow">
+                <div class="logoContainer">
+                    <img src="https://content.mlb.com/images/headshots/current/60x60/{{playerId}}.png" alt="headshot of {{player}}">
+                </div>
+                
+                <div class="teamHeader">
+                    <h1>{{player}}</h1>
+                    <h2><span>{{Pos}}</span><a href="/homebase/overview/team-{{currentTeamId}}/">{{currentTeam}}</a> </h2>
+                </div>
+                <table class="miniPlayerTable">
+                    <tr>
+                        <th>B/T</th>
+                        <th>Age</th>
+                        <th>H</th>
+                        <th>W</th>
+                        <th>Drafted</th>
+                    </tr>
+                    <tr>
+                        <td>{{miniTableInfo.bt}}</td>
+                        <td>{{miniTableInfo.age}}</td>
+                        <td>{{miniTableInfo.height}}</td>
+                        <td>{{miniTableInfo.weight}}</td>
+                        <td>{{miniTableInfo.drafted}}</td>
+                    </tr>
+                </table>
+            </div>
+
+           
+
+            {% if stats == "stats not available"%}
+            <div> Stats not available</div>
+            {% elif Pos == "P" %}
+            <table class="playerTable">
+                <tr class="headerRow">
+                    <th>Year</th>
+                    <th colspan="2">Team</th>
+                    <th>G</th>
+                    <th>IP</th>
+                    <th>W</th>
+                    <th>L</th>
+                    <th>SV</th>
+                    <th>ERA</th>
+                    <th>WHIP</th>
+                    <th>H</th>
+                    <th>R</th>
+                    <th>SO</th>
+                    <th>BB</th>
+                    <th>HR/9</th>
+                    <th>OPS</th>
+                </tr>
+                {%for stat in stats%}
+                    <tr>
+                        <td>{{stat.year}}</td>
+                        <td class="teamImageContainer"><img src="https://www.mlbstatic.com/team-logos/{{stat.teamId}}.svg"></td>
+                        <td>{{stat.team}}</td>
+                        <td>{{stat.games}}</td>
+                        <td>{{stat.ip}}</td>
+                        <td>{{stat.wins}}</th>
+                        <td>{{stat.losses}}</td>
+                        <td>{{stat.sv}}</td>
+                        <td>{{stat.era}}</td>
+                        <td>{{stat.whip}}</td>
+                        <td>{{stat.h}}</td>
+                        <td>{{stat.r}}</td>
+                        <td>{{stat.so}}</td>
+                        <td>{{stat.bb}}</td>
+                        <td>{{stat.hr9}}</td>
+                        <td>{{stat.ops}}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+            {% else %}
+            <table class="playerTable">
+                <tr class="headerRow">
+                    <th>Year</th>
+                    <th colspan="2">Team</th>
+                    <th>G</th>
+                    <th>PA</th>
+                    <th>AB</th>
+                    <th>R</th>
+                    <th>H</th>
+                    <th>2B</th>
+                    <th>3B</th>
+                    <th>HR</th>
+                    <th>RBI</th>
+                    <th>SB</th>
+                    <th>BB</th>
+                    <th>SO</th>
+                    <th>OBP</th>
+                    <th>SLG</th>
+                    <th>OPS</th>
+                </tr>
+                {%for stat in stats%}
+                    <tr>
+                        <td>{{stat.year}}</td>
+                        <td class="teamImageContainer"><img src="https://www.mlbstatic.com/team-logos/{{stat.teamId}}.svg"></td>
+                        <td>{{stat.team}}</td>
+                        <td>{{stat.games}}</td>
+                        <td>{{stat.pa}}</td>
+                        <td>AB</td>
+                        <td>R</td>
+                        <td>{{stat.hits}}</td>
+                        <td>{{stat.doubles}}</td>
+                        <td>{{stat.triples}}</td>
+                        <td>{{stat.hr}}</td>
+                        <td>RBI</td>
+                        <td>{{stat.sbi}}</td>
+                        <td>{{stat.bb}}</td>
+                        <td>{{stat.strikeOuts}}</td>
+                        <td>{{stat.obp}}</td>
+                        <td>{{stat.slg}}</td>
+                        <td>{{stat.ops}}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+            {% endif %}
+        </div>
+    </main>
+    
+</body>
+</html>

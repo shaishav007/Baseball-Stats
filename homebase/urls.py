@@ -11,5 +11,5 @@ urlpatterns = [
     path('overview/team-<int:teamId>/pitchers/',views.loadTeamView),
     path('overview/team-<int:teamId>/player-<int:playerId>/',views.YearlyStatsView),
     path('overview/team-<int:teamId>/',views.loadTeamView),
-    
+    path('overview/leaderboard/',views.setLeaderBoard)
 ]

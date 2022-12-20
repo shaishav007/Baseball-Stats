@@ -1,0 +1,80 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet"> 
+    
+    <link rel="stylesheet" href="{%static 'styles.css' %}">
+    <script src="{%static 'app.js'%}"></script>
+</head>
+<body>
+    <!-- so there's gonna be no console.log data -->
+    <header>
+        <nav>
+            <div class="wrapper">
+                <!-- the nav menu and the logo should be here -->
+                
+                <ul>
+                    <li><a href="/homebase/overview"><img src="{%static 'assets/homebase-logo.png' %}" alt="navigate to homebase"></a></li>
+                    <li><a href="/homebase/overview">Teams</a></li>
+                    <li><a href="#">Leaderboards</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <div class="wrapper">
+            <div class="upperRow">
+                <div class="logoContainer">
+                    <img src="{% static 'assets/homebase-icon.png'%}" alt="homebase logo">
+                </div>
+                
+                <div class="teamHeader">
+                    <h1>Leaderboard</h1>
+                </div>
+                <div class="pill">
+                    <ul>
+                        <li><a href="/homebase/overview/team-{{teamId}}/hitters/" class="hittersLink {% if mode == 'hitters'%}
+                            currentMode
+                            {% endif %}
+                            ">Homeruns</a></li>
+                        
+                    </ul>
+                </div>
+                <table class="leaderTable">
+                    <tr class="headerRow">
+                        <th>rank</th>
+                        <th colspan="2">name</th>
+                        <th>value</th>
+                        <th colspan="2">team</th>
+                        <th>season</th>
+                    </tr>
+                    {%for leader in leaders %}
+                        <tr>
+                            <td>{{leader.rank}}</td>
+                            <td class="playerImageContainer"><img src="https://content.mlb.com/images/headshots/current/60x60/{{leader.personId}}.png" alt="{{player.name}}"></td>
+                            <td >{{leader.person}}</td>
+                            <td>{{leader.value}}</td>
+                            <td class="teamLogo"><img src="https://www.mlbstatic.com/team-logos/{{leader.teamId}}.svg" alt="{{team.name}} logo"></td>
+                            <td >{{leader.team}}</td>
+                            <td>{{leader.season}}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+
+        </div>
+    </main>
+    <footer>
+
+    </footer>
+</body>
+</html>

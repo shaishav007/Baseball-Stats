@@ -72,12 +72,7 @@ def loadTeamView(request,teamId):
     hitters=[]     #hitters
     pitchers=[]    #pitchers        
     playerInfoUrl = "https://statsapi.mlb.com/api/v1/teams/"+str(teamId)+"/roster/Active?hydrate=person(stats(type=season))"
-
-    
-
-    
-    
-    
+ 
     league_dict,team_dict = utils.getLeagueDict()
 
     #each team has a subheading with some stats that we can get from here
@@ -275,3 +270,30 @@ def YearlyStatsView(request,teamId,playerId):
     context['stats']=ybyStats if len(ybyStats)>0 else "stats not available"
     
     return render(request, 'player.html',context)
+
+
+def setLeaderBoard(request):
+
+    leaderBoardUrl="https://statsapi.mlb.com/api/v1/stats/leaders?leaderCategories=homeRuns"
+
+    leaderBoardResults = requests.get(leaderBoardUrl).json()
+    leaders = leaderBoardResults['leagueLeaders'][0]['leaders']
+
+    leaderData=[]
+    for leader in leaders:
+        entry={
+        "rank" : leader['rank'],
+        "value" : leader['value'],
+        "team" : leader['team']['name'],
+        "teamId" : leader['team']['id'],
+        "person" : leader['person']['fullName'],
+        "personId"  : leader['person']['id'],
+        "season" : leader['season']
+        }
+        leaderData.append(entry)
+        
+
+    context={
+        "leaders":leaderData
+    }
+    return render(request,'leaderBoard.html',context)

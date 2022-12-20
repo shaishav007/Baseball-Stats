@@ -272,28 +272,32 @@ def YearlyStatsView(request,teamId,playerId):
     return render(request, 'player.html',context)
 
 
-def setLeaderBoard(request):
+def setLeaderBoard(request,category):
+    context={}
+    availableCategories = ['homeRuns','era','ops','strikeOuts']
+    if category not in availableCategories:
+        context['category']=str(category)+" not Found"
+    else:
+        context['category']=category
+        leaderBoardUrl="https://statsapi.mlb.com/api/v1/stats/leaders?leaderCategories="+str(category)
 
-    leaderBoardUrl="https://statsapi.mlb.com/api/v1/stats/leaders?leaderCategories=homeRuns"
+        leaderBoardResults = requests.get(leaderBoardUrl).json()
+        leaders = leaderBoardResults['leagueLeaders'][0]['leaders']
 
-    leaderBoardResults = requests.get(leaderBoardUrl).json()
-    leaders = leaderBoardResults['leagueLeaders'][0]['leaders']
-
-    leaderData=[]
-    for leader in leaders:
-        entry={
-        "rank" : leader['rank'],
-        "value" : leader['value'],
-        "team" : leader['team']['name'],
-        "teamId" : leader['team']['id'],
-        "person" : leader['person']['fullName'],
-        "personId"  : leader['person']['id'],
-        "season" : leader['season']
-        }
-        leaderData.append(entry)
+        leaderData=[]
+        for leader in leaders:
+            entry={
+            "rank" : leader['rank'],
+            "value" : leader['value'],
+            "team" : leader['team']['name'],
+            "teamId" : leader['team']['id'],
+            "person" : leader['person']['fullName'],
+            "personId"  : leader['person']['id'],
+            "season" : leader['season']
+            }
+            leaderData.append(entry)
         
 
-    context={
-        "leaders":leaderData
-    }
+    context["leaders"]=leaderData
+    
     return render(request,'leaderBoard.html',context)

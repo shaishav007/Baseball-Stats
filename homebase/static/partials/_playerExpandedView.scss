@@ -19,7 +19,7 @@
     flex-wrap:wrap;
 }
 
-h1{
+.playerName{
     padding: 0;
     margin: 0;
 }
@@ -52,4 +52,14 @@ h2{
         color: $offset;
         padding: 0.5rem;
     }
+    @include breakpoint(730px){
+        margin-left:0;
+    }
+}
+
+.notAvailable{
+    margin-block: 10rem;
+    color: $offset;
+    text-align: center;
+    font-size: 1.5rem;
 }

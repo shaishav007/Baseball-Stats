@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>TOR Homebase</title>
+    <link rel="icon" type="image/x-icon" href="{%static 'assets/homebase-icon.png'%}">
     <!-- fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -22,7 +23,7 @@
                 <ul>
                     <li><a href="/homebase/overview"><img src="{%static 'assets/homebase-logo.png' %}" alt="navigate to homebase"></a></li>
                     <li><a href="/homebase/overview">Teams</a></li>
-                    <li><a href="/homebase/overview/leaderboard/">Leaderboards</a></li>
+                    <li><a href="/homebase/overview/leaderboard/category-homeRuns/">Leaderboards</a></li>
                 </ul>
             </div>
         </nav>
@@ -35,7 +36,7 @@
                 </div>
                 
                 <div class="teamHeader">
-                    <h1>{{player}}</h1>
+                    <h1 class="playerName">{{player}}</h1>
                     <h2><span>{{Pos}}</span><a href="/homebase/overview/team-{{currentTeamId}}/">{{currentTeam}}</a> </h2>
                 </div>
                 <table class="miniPlayerTable">
@@ -59,7 +60,9 @@
            
 
             {% if stats == "stats not available"%}
-            <div> Stats not available</div>
+            <div class="wrapper">
+                <div class="notAvailable"> Sorry we don't have the updated stats at the moment, they will soon be updated </div>
+            </div>
             {% elif Pos == "P" %}
             <table class="playerTable">
                 <tr class="headerRow">

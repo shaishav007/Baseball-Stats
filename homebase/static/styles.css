@@ -399,6 +399,7 @@ h1 {
 .upperRow {
   display: flex;
   align-items: center;
+  margin-top: 1rem;
 }
 
 .pill {
@@ -493,7 +494,7 @@ h2 {
   flex-wrap: wrap;
 }
 
-h1 {
+.playerName {
   padding: 0;
   margin: 0;
 }
@@ -524,6 +525,18 @@ h2 a {
   background: transparent;
   color: #F7F7F7;
   padding: 0.5rem;
+}
+@media (max-width: 730px) {
+  .miniPlayerTable {
+    margin-left: 0;
+  }
+}
+
+.notAvailable {
+  margin-block: 10rem;
+  color: #F7F7F7;
+  text-align: center;
+  font-size: 1.5rem;
 }
 
 .leaderTable {

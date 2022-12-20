@@ -6,7 +6,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>TOR Homebase</title>
+    <link rel="icon" type="image/x-icon" href="{%static 'assets/homebase-icon.png'%}">
     <!-- fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -23,7 +24,7 @@
                 <!-- the nav menu and the logo should be here -->
                 
                 <ul>
-                    <li><a href="/homebase/overview"><img src="{%static 'assets/homebase-logo.png' %}" alt="navigate to homebase"></a></li>
+                    <li><a href="/homebase/overview/"><img src="{%static 'assets/homebase-logo.png' %}" alt="navigate to homebase"></a></li>
                     <li><a href="/homebase/overview">Teams</a></li>
                     <li><a href="#">Leaderboards</a></li>
                 </ul>
@@ -42,10 +43,18 @@
                 </div>
                 <div class="pill">
                     <ul>
-                        <li><a href="/homebase/overview/team-{{teamId}}/hitters/" class="hittersLink {% if mode == 'hitters'%}
+                        <li><a href="/homebase/overview/leaderboard/category-homeRuns/ " class="hittersLink {% if category == 'homeRuns'%}
                             currentMode
                             {% endif %}
                             ">Homeruns</a></li>
+                        <li><a href="/homebase/overview/leaderboard/category-era/ " class="hittersLink {% if category == 'era'%}
+                            currentMode
+                            {% endif %}
+                            ">era</a></li>
+                        <li><a href="/homebase/overview/leaderboard/category-strikeOuts/ " class="hittersLink {% if category == 'strikeOuts'%}
+                            currentMode
+                            {% endif %}
+                            ">strikeOuts</a></li>
                         
                     </ul>
                 </div>
@@ -53,7 +62,7 @@
                     <tr class="headerRow">
                         <th>rank</th>
                         <th colspan="2">name</th>
-                        <th>value</th>
+                        <th>{{category}}</th>
                         <th colspan="2">team</th>
                         <th>season</th>
                     </tr>
@@ -61,7 +70,7 @@
                         <tr>
                             <td>{{leader.rank}}</td>
                             <td class="playerImageContainer"><img src="https://content.mlb.com/images/headshots/current/60x60/{{leader.personId}}.png" alt="{{player.name}}"></td>
-                            <td >{{leader.person}}</td>
+                            <td><a href="/homebase/overview/team-{{leader.teamId}}/player-{{leader.personId}}/" class="playerLink">{{leader.person}}</a></td>
                             <td>{{leader.value}}</td>
                             <td class="teamLogo"><img src="https://www.mlbstatic.com/team-logos/{{leader.teamId}}.svg" alt="{{team.name}} logo"></td>
                             <td >{{leader.team}}</td>
